@@ -9,18 +9,8 @@
 <script setup>
 const users = ref([])
 
-// try {
-  const res = await $fetch('/api/users')
+const { users: fetchedUsers } = await $fetch('/api/users')
 
-  // if (status && status === 404 || status >= 500) {
-  //   const cacheControlHeader = useResponseHeader('Cache-Control')
-    
-  //   cacheControlHeader.value = 'no-cache, no-store, must-revalidate';
-  // }
-
-  // users.value = usersData
-// } catch(e) {
-//   throw new Error('fetch Users error')
-// }
+users.value = fetchedUsers || []
 
 </script>
