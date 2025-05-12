@@ -1,16 +1,13 @@
 <template>
-  <div class="users">
-    <div v-for="user in users" :key="user.id">
-      {{ user.firstName }} {{ user.lastName }}
-    </div>
+  <div>
+    Hello {{ name }} welcome to test
   </div>
 </template>
 
-<script setup>
-const users = ref([])
+<script setup lang="ts">
 
-const { users: fetchedUsers } = await $fetch('/api/users')
-
-users.value = fetchedUsers || []
+defineProps<{
+  name: string
+}>()
 
 </script>
