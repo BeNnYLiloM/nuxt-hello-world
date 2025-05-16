@@ -1,6 +1,6 @@
 const getUsers = async (event) => {
   try {
-    const response = await $fetch('https://dummyjson.com/users_dfg')
+    const response = await $fetch('https://dummyjson.com/users')
     
     return response
   } catch(e) {
