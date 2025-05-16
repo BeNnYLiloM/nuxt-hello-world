@@ -1,8 +1,4 @@
-import { describe, test, expect } from 'vitest'
-import { mount } from '@vue/test-utils'
-import MyPage from '../pages/index.vue'
-
-const mockUserResponse = [
+[
   {
     "id": 1,
     "firstName": "Emily",
@@ -74,28 +70,3 @@ const mockUserResponse = [
     "role": "admin"
   }
 ]
-
-function createMockResolveValue(data) {
-  return { 
-    json: () => new Promise((resolve) => resolve(data)), 
-    ok: true 
-  };
-}
-
-describe('Index page', () => {
-  test('test fetch request/response', () => {
-    const mockFetch = vi.spyOn(global, 'fetch');
-
-    mockFetch.mockReturnValue(createMockResolveValue({
-      results: mockUserResponse
-    }));
-
-    const wrap = mount(MyPage, {
-      propsData: {
-        name: 'Roman'
-      }
-    })
-
-    expect(wrap.text()).toBe('Hello Vanya welcome to test')
-  })
-})

@@ -1,6 +1,6 @@
 <template>
-  <div class="users" data-testid="users">
-    <div v-for="user in users" :key="user.id">
+  <div class="users">
+    <div data-testid="user" v-for="user in users" :key="user.id">
       {{ user.firstName }} {{ user.lastName }}
     </div>
   </div>
@@ -9,9 +9,14 @@
 <script setup>
 
 const users = ref([])
+const isFailed = ref(false)
 
-const { users: fetchedUsers } = await $fetch('/api/users')
+try {
+  const { users: fetchedUsers } = await $fetch('/api/users')
 
-users.value = fetchedUsers || []
+  users.value = fetchedUsers || []
+} catch(e) {
+  isFailed.value = true
+}
 
 </script>
