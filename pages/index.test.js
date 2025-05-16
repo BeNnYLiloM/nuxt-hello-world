@@ -1,24 +1,27 @@
 import { describe, test, expect, vi } from 'vitest'
-import { mount } from '@vue/test-utils'
 import MyPage from './index.vue'
 import mockUserResponse from '../mocks/users.json'
-import { registerEndpoint } from '@nuxt/test-utils/runtime'
+import { registerEndpoint, mountSuspended } from '@nuxt/test-utils/runtime'
 
-const getUsersMock = vi.fn(() => Promise.resolve({ users: mockUserResponse }))
+const getUsersMock = vi.fn()
 
 registerEndpoint('/api/users', getUsersMock)
 
 describe('Index page', () => {
-  const wrap = mount(MyPage)
+  test('test render users length', async () => {
+    getUsersMock.mockImplementationOnce(() => Promise.resolve({ users: mockUserResponse }))
 
-  test('test render users length', () => {
+    const wrap = await mountSuspended(MyPage)
     const users = wrap.findAll('[data-testid="user"]')
     
     expect(users.length).toBe(1)
   })
 
-  test('test failed request', () => {
+  test('test failed request', async () => {
+    getUsersMock.mockImplementationOnce(() => Promise.reject())
 
-    expect(wrap.vm.isFailed).toBe(false)
+    const wrap = await mountSuspended(MyPage)
+    
+    expect(wrap.vm.isFailed.value).toBe(true)
   })
 })
